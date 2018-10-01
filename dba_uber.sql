@@ -37,10 +37,10 @@ NOORDER;
 
 CREATE TABLE payments_account (
   Id_payments integer ,
-  Id_account integer ,
-  PRIMARY KEY (Id_payments, Id_account),
+  Id_account_numbers integer ,
+  PRIMARY KEY (Id_payments, Id_account_numbers),
   FOREIGN KEY (Id_payments) REFERENCES  payments (Id),
-  FOREIGN KEY (Id_account ) REFERENCES  account_numbers (id)
+  FOREIGN KEY (Id_account_numbers ) REFERENCES  account_numbers (id)
 );
 
 CREATE SEQUENCE users_sec
@@ -60,7 +60,7 @@ CREATE TABLE users(
   email_address2 varchar2(255),
   password_user varchar2(255),
   cellphone_number integer,
-  Id_payment integer,
+  Id_payments integer,
   Id_promotions integer,
   Id_trips integer,
   FOREIGN KEY (Id_payment) REFERENCES  payments (Id),
@@ -108,8 +108,8 @@ CREATE TABLE type_coin (
   Id integer PRIMARY KEY,
   coin varchar2(255),
   symbol varchar2(255),
-  Id_coutrys integer,
-  FOREIGN KEY (Id_coutrys) REFERENCES countrys (Id)  
+  Id_countrys integer,
+  FOREIGN KEY (Id_countrys) REFERENCES countrys (Id)  
 );
 
 CREATE SEQUENCE countrys_sec
