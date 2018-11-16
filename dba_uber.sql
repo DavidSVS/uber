@@ -11,22 +11,6 @@ CREATE TABLE types_services (
   type_services varchar2(10)
   );
   
-  CREATE SEQUENCE departments_sec
-INCREMENT BY 1
-START WITH 1
-MAXVALUE 1000
-MINVALUE 1
-NOCYCLE
-NOORDER;
-
-CREATE TABLE departments(
-  Id integer PRIMARY KEY,
-  department varchar2(255),
-  Id_coin number,
-  FOREIGN KEY (Id_coin) REFERENCES type_coin  (id)
-);
-
-
  CREATE SEQUENCE payments_account_sec
 INCREMENT BY 1
 START WITH 1
@@ -37,10 +21,10 @@ NOORDER;
 
 CREATE TABLE payments_account (
   Id_payments integer ,
-  Id_account integer ,
-  PRIMARY KEY (Id_payments, Id_account),
+  Id_account_numbers integer ,
+  PRIMARY KEY (Id_payments, Id_account_numbers),
   FOREIGN KEY (Id_payments) REFERENCES  payments (Id),
-  FOREIGN KEY (Id_account ) REFERENCES  account_numbers (id)
+  FOREIGN KEY (Id_account_numbers ) REFERENCES  account_numbers (id)
 );
 
 CREATE SEQUENCE users_sec
@@ -60,7 +44,7 @@ CREATE TABLE users(
   email_address2 varchar2(255),
   password_user varchar2(255),
   cellphone_number integer,
-  Id_payment integer,
+  Id_payments integer,
   Id_promotions integer,
   Id_trips integer,
   FOREIGN KEY (Id_payment) REFERENCES  payments (Id),
@@ -82,7 +66,7 @@ CREATE TABLE promotions (
   Id_user integer
 );
 
-CREATE SEQUENCE ubication_cars_sec
+CREATE SEQUENCE currency_sec
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 1000
@@ -90,26 +74,11 @@ MINVALUE 1
 NOCYCLE
 NOORDER;
 
-CREATE TABLE ubication_cars (
+CREATE TABLE currency (
   Id integer PRIMARY KEY,
-  latitude number,
-  lenght number
-);
-
-CREATE SEQUENCE type_coin_sec
-INCREMENT BY 1
-START WITH 1
-MAXVALUE 1000
-MINVALUE 1
-NOCYCLE
-NOORDER;
-
-CREATE TABLE type_coin (
-  Id integer PRIMARY KEY,
-  coin varchar2(255),
-  symbol varchar2(255),
-  Id_coutrys integer,
-  FOREIGN KEY (Id_coutrys) REFERENCES countrys (Id)  
+  name varchar2(255),
+  Id_countrys integer,
+  FOREIGN KEY (Id_countrys) REFERENCES countrys (Id)  
 );
 
 CREATE SEQUENCE countrys_sec
@@ -150,7 +119,7 @@ CREATE TABLE shared_services (
   Id integer PRIMARY KEY,
   Description_trip varchar2(255)
 );
-CREATE SEQUENCE citys_sec
+CREATE SEQUENCE cities_sec
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 1000
@@ -158,11 +127,11 @@ MINVALUE 1
 NOCYCLE
 NOORDER;
 
-CREATE TABLE citys (
+CREATE TABLE cities (
   Id integer PRIMARY KEY,
   city varchar2(255),
-  Id_departaments integer,
-  FOREIGN KEY (Id_departaments) REFERENCES departments (Id)  
+  Id_country  integer,
+  FOREIGN KEY (Id_country) REFERENCES countrys (Id)  
 );
 
 CREATE SEQUENCE account_numbers_sec
@@ -216,11 +185,18 @@ NOORDER;
 
 CREATE TABLE cars (
   Id integer PRIMARY KEY, 
+  Id_driver integer,
   brand varchar2(255),
   Line integer,
   date_car integer,
-  Id_ubication_cars integer,
-  FOREIGN KEY (Id_ubication_cars) REFERENCES ubication_cars (Id) 
+  license_number   VARCHAR2(32),
+  latitude number,
+  lenght number,
+  Id_trip numeric,
+  Id_service_type integer,
+  FOREIGN KEY (Id_service_type) REFERENCES types_services (Id), 
+  FOREIGN KEY (Id_driver) REFERENCES drivers (Id),
+  FOREIGN KEY (Id_trip) REFERENCES trips (Id)
 );
 
 CREATE SEQUENCE  trips_sec
@@ -269,7 +245,7 @@ CREATE TABLE drivers (
   email_address2 varchar2(255),
   password varchar2(20),
   cellphone_number integer,
-  License_car integer,
+  invite_code varchar2(64),
   Id_cars integer,
   FOREIGN KEY (Id_cars) REFERENCES cars (Id) 
 );
