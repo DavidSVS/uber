@@ -62,11 +62,11 @@ NOORDER;
 CREATE TABLE currency (
   Id integer PRIMARY KEY,
   name varchar2(255),
-  Id_countrys integer,
-  FOREIGN KEY (Id_countrys) REFERENCES countrys (Id)  
+  Id_countries integer,
+  FOREIGN KEY (Id_countries) REFERENCES countrys (Id)  
 );
 
-CREATE SEQUENCE countrys_sec
+CREATE SEQUENCE countries_sec
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 1000
@@ -74,7 +74,7 @@ MINVALUE 1
 NOCYCLE
 NOORDER;
 
-CREATE TABLE countrys (
+CREATE TABLE countries (
   Id integer PRIMARY KEY,
   country varchar2(70),
   currency varchar2(255)
@@ -117,7 +117,7 @@ CREATE TABLE cities (
   Id integer PRIMARY KEY,
   city varchar2(255),
   Id_country  integer,
-  FOREIGN KEY (Id_country) REFERENCES countrys (Id)  
+  FOREIGN KEY (Id_country) REFERENCES countries (Id)  
 );
 
 CREATE SEQUENCE account_numbers_sec
@@ -178,7 +178,7 @@ CREATE TABLE cars (
   brand varchar2(255),
   Line integer,
   date_car integer,
-  license_number   VARCHAR2(32),
+  license_number varchar2(32),,
   latitude number,
   lenght number,
   Id_trip numeric,
@@ -204,15 +204,15 @@ CREATE TABLE trips (
   distance varchar2(255),
   Id_drivers integer,
   Id_type_fare integer,
-  Id_citys integer,
-  Id_countrys integer,
+  Id_cities integer,
+  Id_countries integer,
   Id_shared_services integer,
   Id_state integer,
   Id_types_services integer,
   FOREIGN KEY (Id_drivers) REFERENCES drivers (Id),
   FOREIGN KEY (Id_type_fare) REFERENCES type_fare (Id), 
-  FOREIGN KEY (Id_citys) REFERENCES cities (Id) ,
-  FOREIGN KEY (Id_countrys) REFERENCES countrys (Id), 
+  FOREIGN KEY (Id_cities) REFERENCES cities (Id) ,
+  FOREIGN KEY (Id_countries) REFERENCES countrys (Id), 
   FOREIGN KEY (Id_shared_services) REFERENCES shared_services (Id) ,
   FOREIGN KEY (Id_state) REFERENCES state (Id) ,
   FOREIGN KEY (Id_types_services) REFERENCES types_services (Id) 
@@ -236,7 +236,7 @@ CREATE TABLE drivers (
   cellphone_number integer,
   invite_code varchar2(64),
   Id_cars integer,
-  bank_account_number   varchar2(32),
+  bank_account_number varchar2(32),
   Id_bank integer,
   FOREIGN KEY (Id_cars) REFERENCES cars (Id),
   FOREIGN KEY (Id_bank) REFERENCES banks (Id)
@@ -252,10 +252,10 @@ NOORDER;
 
 CREATE TABLE banks (
     Id integer PRIMARY KEY,
-    name   varchar2(255)
+    name varchar2(255)
 );
 
-CREATE SEQUENCE driver_payment_bills_sec
+CREATE SEQUENCE driver_payment_bill_sec
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 1000
@@ -263,16 +263,16 @@ MINVALUE 1
 NOCYCLE
 NOORDER;
 
-CREATE TABLE driver_payment_bills (
+CREATE TABLE driver_payment_bill (
     Id integer PRIMARY KEY,
     trip_user_bill_id integer,
     payment_date TIMESTAMP,
     uber_fee DECIMAL,
     Id_trip_user integer,
-    FOREIGN KEY (Id_trip_user) REFERENCES trip_user_bills (Id)
+    FOREIGN KEY (Id_trip_user) REFERENCES trip_user_bill (Id)
 );
 
-CREATE SEQUENCE trip_user_bills_sec
+CREATE SEQUENCE trip_user_bill_sec
 INCREMENT BY 1
 START WITH 1
 MAXVALUE 1000
@@ -280,7 +280,7 @@ MINVALUE 1
 NOCYCLE
 NOORDER;
 
-CREATE TABLE trip_user_bills (
+CREATE TABLE trip_user_bill (
     Id integer PRIMARY KEY,
     trip_user_id integer,
     subtotal DECIMAL,
